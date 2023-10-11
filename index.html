@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>STOPWATCH</title>
+    <style>
+        *{
+            
+            font-family:Lobster;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: rgb(0, 0, 0);
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+        }
+        #split-content{
+            border-radius: 4px;
+            background-color: gray;
+            position: relative;
+            top: 10px;
+            padding: 10px;
+        }
+        .wrapper{
+            border-radius: 10px;
+        }
+        .box{
+            /* width: 454px;
+            right: 454px;
+            top: 234px;
+            position: relative; */
+            background-color: whitesmoke;
+            padding: 4px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            text-align: center;
+            /* font-size: 10px; */
+        }
+        .wrapper{
+            position: relative;
+            top: 10px;
+            height: 190px;
+            width: 454px;
+            
+            background-color:#838377    ; 
+        }
+        #pause{
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        #play{
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        #reset{
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        .split-div{
+            /* background-color: green; */
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            font-size: 14px;
+            display: flex;
+            align-content: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 3px solid black;
+            cursor: pointer;
+        }
+        .clear-split{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            font-size: 8px;
+            display: flex;
+            align-content: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            border: 3px solid black;
+            cursor: pointer;
+        }
+        .btns{
+            height: 84px;
+            background-color: #ddd2d4;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        h1{
+            font-size: 100px;
+            text-align: center;
+        }
+    </style>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- <i class="fa-solid fa-play"></i> -->
+    <div class="wrapper">
+        <h1 id="time">00:00:00</h1>
+        <div class="btns">
+            <div>
+                <img src="pause.png" alt="" srcset="" onclick="stop()" id="pause">
+            </div>
+            <div><img src="play2.png" alt="" srcset="" id="play" onclick="play()"></div>
+            <div><img src="reset.png" alt="" srcset="" id="reset" onclick="reset()"></div>
+
+            <div class="split-div" onclick="split()">
+                <span><p>Split</p></span>
+            </div>
+
+            <div onclick="clearSplit()" class="clear-split">
+                clear split
+            </div>
+        </div>
+        <div id="split-content">
+
+        </div>
+   
+    
+</body>
+<script>
+    const splitContent=document.getElementById('split-content');
+    let [hours,minutes,seconds]=[0,0,0];
+    let timer=null;
+    let time= document.getElementById('time');
+    function stopWatch(){
+        seconds++;
+        if(seconds==60){
+            minutes++;
+            seconds=0;
+            if(minutes==60){
+                hours++;
+                minutes=0;
+            }
+        }
+        let h= hours<10 ? "0"+hours : hours;
+        let m= minutes<10 ? "0"+minutes : minutes;
+        let s= seconds<10 ? "0"+seconds : seconds;
+
+        time.innerHTML= h+":"+m+":"+s;
+        arr=[];
+    }
+    function play(){
+        if(timer!== null){
+            clearInterval(timer);
+        }
+        timer=setInterval(stopWatch,1000);
+    }
+    function stop(){
+        clearInterval(timer);
+        
+    }
+    function clearSplit(){
+        boxSplit.innerHTML="";
+        root.innerHTML="";
+    }
+    const br=document.createElement('br');
+    function reset() {
+        console.log("In reset");
+    let text = "Are you sure !!"+"All timings will be lost when you reset.";
+    if (confirm(text) == true) {
+        clearInterval(timer);
+        root.innerHTML="";
+        [hours,minutes,seconds]=[0,0,0];
+        time.innerHTML="00:00:00";
+        a=0;
+        arr=[];
+  } else {
+     return;
+  }
+}
+    let arr=[];
+    a=0;
+    function split(){
+        console.log("in");
+        
+        arr.push([hours,minutes,seconds]);
+        displaySplit();
+        
+    }
+    
+    root=document.createElement('div');
+    root.className="root";
+    function displaySplit(){
+        boxSplit=document.createElement('div');
+        boxSplit.className='box';
+        console.log("hey"+arr);
+        hrs=arr[0];
+        min=hrs[1];
+        sec=hrs[2];
+        hrs=hrs[0];
+        console.log("hours: "+hrs);
+        hrs= hrs<10 ? "0"+hrs : hrs;
+        min= min<10 ? "0"+min : min;
+        sec= sec<10 ? "0"+sec : sec;
+        boxSplit.innerHTML=hrs+":"+min+":"+sec;
+        root.appendChild(boxSplit);
+        splitContent.append(root);
+        // document.body.append(root);
+    }
+</script>
+</html>
